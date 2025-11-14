@@ -4,142 +4,260 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wohnzimmer Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
     /* Grundlayout */
     body {
         margin: 0;
-        font-family: 'Roboto', sans-serif;
-        background: linear-gradient(135deg, #1f1f1f, #121212);
-        color: #fff;
+        font-family: 'Inter', sans-serif; /* Elegante, gut lesbare Schrift */
+        background: linear-gradient(135deg, #1f1f1f, #0a0a0a); /* Etwas dunklerer Verlauf */
+        color: #e0e0e0; /* Weicheres Weiß */
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
     }
 
     header {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        padding: 20px;
+        background: rgba(255, 255, 255, 0.08); /* Weniger transparent, mehr Glas-Effekt */
+        backdrop-filter: blur(12px); /* Stärkere Unschärfe */
+        padding: 15px 25px; /* Etwas weniger padding */
         text-align: center;
-        font-size: 2rem;
+        font-family: 'Poppins', sans-serif; /* Akzent-Schrift für Überschrift */
+        font-size: 1.8rem;
         font-weight: 700;
-        letter-spacing: 1px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        border-bottom: 1px solid rgba(255,255,255,0.2);
+        letter-spacing: 1.5px;
+        box-shadow: 0 4px 25px rgba(0,0,0,0.6); /* Stärkerer Schatten */
+        border-bottom: 1px solid rgba(255,255,255,0.15);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
     }
+    
+    .header-left {
+        flex-grow: 1;
+        text-align: left;
+        font-size: 1.2em; /* Titelgröße im Header angepasst */
+    }
+
+    .header-time-date {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; /* Rechtsbündig */
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        color: rgba(255,255,255,0.8);
+    }
+    
+    .header-time {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #fff;
+    }
+    
+    .header-date {
+        font-size: 1rem;
+        margin-top: -5px; /* Näher an der Uhrzeit */
+    }
+
 
     main {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        padding: 20px;
-        gap: 20px;
+        padding: 30px; /* Mehr Abstand */
+        gap: 25px; /* Mehr Abstand zwischen Kacheln */
+        flex-grow: 1; /* Nimmt den restlichen Platz ein */
     }
 
     /* Kachel-Design Glassmorphism */
     .card {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(15px);
-        border-radius: 25px;
-        padding: 20px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        background: rgba(255, 255, 255, 0.06); /* Weniger transparent */
+        backdrop-filter: blur(18px); /* Stärkere Unschärfe */
+        border-radius: 20px; /* Etwas weniger abgerundet */
+        padding: 25px; /* Mehr Innenabstand */
+        box-shadow: 0 10px 35px rgba(0,0,0,0.5); /* Stärkerer Schatten */
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.08); /* Subtiler Rahmen */
+        display: flex;
+        flex-direction: column;
     }
 
     .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        transform: translateY(-8px); /* Stärkerer Hover-Effekt */
+        box-shadow: 0 25px 50px rgba(0,0,0,0.7); /* Noch stärkerer Schatten */
     }
 
     iframe {
         border: 0;
-        border-radius: 20px;
+        border-radius: 15px; /* Weniger abgerundet als die Kachel */
         width: 100%;
         height: 100%;
+        background-color: rgba(0,0,0,0.1); /* Fallback für Kalender Hintergrund */
     }
 
     /* Kalender */
     .calendar {
-        flex: 2 1 1000px;
-        height: 700px;
+        flex: 2 1 900px; /* Anpassung der Breite für große Bildschirme */
+        height: 650px; /* Etwas kleiner für mehr Balance */
     }
 
     /* Rechte Spalte */
     .right-column {
-        flex: 1 1 350px;
+        flex: 1 1 400px; /* Etwas breiter */
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 25px;
     }
 
-    /* Wetter */
+    /* Aktuelles Wetter */
     .weather {
-        height: 250px;
+        min-height: 250px; /* Mindesthöhe für Layout-Stabilität */
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-size: 1.2rem;
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        flex-grow: 0; /* Nicht expandieren */
     }
-
-    /* Nachrichten */
-    .news {
-        flex: 1;
-        max-height: 400px;
-        overflow-y: auto;
-    }
-
-    .news h2 {
+    
+    .weather h2 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.6rem;
         margin-top: 0;
-        font-size: 1.5rem;
-        border-bottom: 2px solid rgba(0,191,255,0.6);
-        padding-bottom: 5px;
-        margin-bottom: 10px;
+        color: #fff;
     }
 
-    .news ul {
+    .current-temp {
+        font-size: 4.5rem; /* Größere Temperaturanzeige */
+        font-weight: 700;
+        color: #92dff3; /* Sanfteres Türkis-Blau */
+        margin: 10px 0 5px;
+        line-height: 1;
+    }
+    
+    .weather-details {
+        font-size: 1.2rem;
+        color: #c0c0c0; /* Weicheres Grau */
+        margin-top: 5px;
+    }
+    
+    .weather-details strong {
+        color: #e0e0e0;
+    }
+    
+
+    /* Nachrichten (Tagesschau) */
+    .news-block {
+        flex: 1; /* Nimmt den restlichen Platz in der Spalte ein */
+        max-height: 400px; /* Bleibt bei max-Höhe */
+        overflow-y: auto;
+        padding-bottom: 5px; /* Luft am Ende der Scroll-Liste */
+    }
+
+    .news-block h2 {
+        font-family: 'Poppins', sans-serif;
+        margin-top: 0;
+        font-size: 1.6rem;
+        border-bottom: 2px solid rgba(146,223,243,0.5); /* Passende Akzentfarbe */
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+        color: #fff;
+    }
+
+    .news-block ul {
         list-style: none;
         padding: 0;
         margin: 0;
     }
 
-    .news li {
-        margin-bottom: 15px;
+    .news-block li {
+        margin-bottom: 18px; /* Mehr Abstand zwischen Nachrichten */
     }
 
-    .news a {
+    .news-block a {
         text-decoration: none;
-        color: #00bfff;
+        color: #92dff3; /* Passende Akzentfarbe */
         font-weight: 500;
+        display: block;
+        font-size: 1.15rem; /* Etwas größere Schrift */
+        transition: color 0.2s ease;
     }
 
-    .news a:hover {
-        text-decoration: underline;
+    .news-block a:hover {
+        color: #70b8cc; /* Dunklerer Hover-Effekt */
+        text-decoration: none; /* Kein Unterstrich bei Hover */
+    }
+    
+    .news-source {
+        font-size: 0.95em;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 4px;
+        display: block; /* Eigene Zeile */
     }
 
-    /* Scrollbar modern */
-    .news::-webkit-scrollbar {
-        width: 8px;
+
+    /* Scrollbar modern (akzentuiert) */
+    .news-block::-webkit-scrollbar {
+        width: 10px; /* Breitere Scrollbar */
     }
 
-    .news::-webkit-scrollbar-thumb {
-        background: rgba(0,191,255,0.6);
-        border-radius: 4px;
+    .news-block::-webkit-scrollbar-thumb {
+        background: rgba(146,223,243,0.7); /* Akzentfarbe für Scrollbar */
+        border-radius: 5px;
+        border: 2px solid rgba(255,255,255,0.05); /* Rand für Tiefe */
     }
 
-    .news::-webkit-scrollbar-track {
-        background: rgba(255,255,255,0.05);
+    .news-block::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.03); /* Leichter Track-Hintergrund */
     }
 
     @media (max-width: 1200px) {
         main {
             flex-direction: column;
             align-items: center;
+            padding: 20px;
         }
         .calendar {
             width: 100%;
+            height: 500px; /* Anpassung für kleinere Bildschirme */
         }
         .right-column {
             width: 100%;
+        }
+        header {
+            flex-direction: column;
+            text-align: center;
+            gap: 5px;
+        }
+        .header-left, .header-time-date {
+            text-align: center;
+            align-items: center;
+        }
+        .header-time {
+            font-size: 1.5rem;
+        }
+        .header-date {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .current-temp {
+            font-size: 3.5rem;
+        }
+        .weather-details {
+            font-size: 1rem;
+        }
+        .news-block h2 {
+            font-size: 1.4rem;
+        }
+        .news-block a {
+            font-size: 1.05rem;
         }
     }
 </style>
@@ -147,58 +265,144 @@
 <body>
 
 <header>
-    Wohnzimmer Dashboard
+    <div class="header-left">Wohnzimmer Dashboard</div>
+    <div class="header-time-date">
+        <div id="liveTime" class="header-time"></div>
+        <div id="liveDate" class="header-date"></div>
+    </div>
 </header>
 
 <main>
-    <!-- Kalender -->
     <div class="card calendar">
-        <iframe src="https://calendar.google.com/calendar/embed?src=familie.wasmer%40gmx.de&ctz=Europe%2FBerlin"></iframe>
+        <iframe src="https://calendar.google.com/calendar/embed?src=familie.wasmer%40gmx.de&ctz=Europe%2FBerlin" style="border: 0;" frameborder="0" scrolling="no"></iframe>
     </div>
 
     <div class="right-column">
-        <!-- Wetter -->
         <div class="card weather">
-            <h2>Wetter in Wälmlingen</h2>
-            <iframe src="https://wttr.in/Waelmlingen?format=3" width="100%" height="80"></iframe>
+            <h2>Aktuelles Wetter in Efringen-Kirchen</h2>
+            <div id="currentWeatherContent">Lade aktuelle Daten...</div>
         </div>
 
-        <!-- Nachrichten -->
-        <div class="card news">
-            <h2>Aktuelle Nachrichten</h2>
+        <div class="card news-block">
+            <h2>Tagesschau Homepage-Meldungen</h2>
             <ul id="newsList">
-                <!-- JS fügt Nachrichten hinzu -->
+                <li>Lade Nachrichten...</li>
             </ul>
         </div>
     </div>
 </main>
 
 <script>
-    // Google News RSS Feed (via Proxy)
-    const rssUrl = "https://news.google.com/rss?hl=de&gl=DE&ceid=DE:de";
-    const proxy = "https://api.allorigins.win/get?url=" + encodeURIComponent(rssUrl);
+    // --- Live-Uhr und Datum aktualisieren ---
+    function updateDateTime() {
+        const now = new Date();
+        const timeElement = document.getElementById('liveTime');
+        const dateElement = document.getElementById('liveDate');
 
-    fetch(proxy)
-        .then(response => response.json())
+        // Uhrzeit formatieren (HH:MM:SS)
+        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        timeElement.textContent = now.toLocaleTimeString('de-DE', timeOptions);
+
+        // Datum formatieren (Wochentag, TT.MM.JJJJ)
+        const dateOptions = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+        dateElement.textContent = now.toLocaleDateString('de-DE', dateOptions);
+    }
+
+    // Beim Laden der Seite und dann jede Sekunde aktualisieren
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    // URL für aktuelle Wetterdaten (Open-Meteo)
+    const currentUrl = "https://api.open-meteo.com/v1/forecast?latitude=47.6901&longitude=7.5617&models=icon_seamless&current=temperature_2m,rain,snowfall&timezone=Europe%2FBerlin";
+    
+    // URL für Tagesschau API (API2U, Homepage)
+    const newsUrl = 'https://www.tagesschau.de/api2u/homepage/'; 
+
+    
+    // --- FUNKTION 1: AKTUELLES WETTER ---
+    fetch(currentUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP Fehler! Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            const parser = new DOMParser();
-            const xml = parser.parseFromString(data.contents, "text/xml");
-            const items = xml.querySelectorAll("item");
-            const newsList = document.getElementById("newsList");
-            items.forEach((item, index) => {
-                if(index < 5){
-                    const li = document.createElement("li");
-                    const a = document.createElement("a");
-                    a.href = item.querySelector("link").textContent;
-                    a.target = "_blank";
-                    a.textContent = item.querySelector("title").textContent;
-                    li.appendChild(a);
-                    newsList.appendChild(li);
-                }
-            });
+            const temp = data.current.temperature_2m;
+            const rain = data.current.rain;
+            const snowfall = data.current.snowfall;
+            
+            const contentDiv = document.getElementById("currentWeatherContent");
+            
+            let details = '';
+            
+            if (rain > 0 && snowfall === 0) {
+                details += `<strong>Regen:</strong> ${rain.toFixed(1)} mm/h`;
+            } else if (snowfall > 0 && rain === 0) {
+                 details += `<strong>Schneefall:</strong> ${snowfall.toFixed(1)} cm/h`;
+            } else if (rain > 0 && snowfall > 0) {
+                details += `<strong>Regen:</strong> ${rain.toFixed(1)} mm/h, <strong>Schnee:</strong> ${snowfall.toFixed(1)} cm/h`;
+            }
+            
+            if (details === '') {
+                details = 'Derzeit kein Niederschlag.';
+            }
+
+            contentDiv.innerHTML = `
+                <div class="current-temp">${temp.toFixed(1)}°C</div>
+                <div class="weather-details">${details}</div>
+            `;
         })
         .catch(err => {
-            console.log("Fehler beim Laden der Nachrichten:", err);
+            console.error("Fehler beim Laden der aktuellen Wetterdaten:", err);
+            document.getElementById("currentWeatherContent").innerHTML = `
+                <div style="color: red;">Fehler beim Laden der aktuellen Daten.</div>
+            `;
+        });
+        
+    
+    // --- FUNKTION 2: NACHRICHTEN (TAGESSCHAU API2U HOMEPAGE) ---
+    const newsList = document.getElementById("newsList");
+    newsList.innerHTML = '<li>Lade Nachrichten...</li>';
+
+    fetch(newsUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`API Fehler (${response.status}) beim Abruf der Tagesschau-Meldungen.`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            newsList.innerHTML = ''; // Liste leeren
+
+            if (data.news && Array.isArray(data.news) && data.news.length > 0) {
+                const limit = 7; 
+                
+                data.news.slice(0, limit).forEach(item => {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    
+                    a.href = item.url;
+                    a.target = "_blank";
+                    a.textContent = item.title;
+                    
+                    const source = document.createElement("span");
+                    source.className = "news-source";
+                    
+                    const time = item.date ? new Date(item.date).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) : '';
+                    source.textContent = `Tagesschau (${time})`;
+
+                    li.appendChild(a);
+                    li.appendChild(source);
+                    newsList.appendChild(li);
+                });
+            } else {
+                newsList.innerHTML = '<li><span style="color: yellow;">Keine Homepage-Meldungen im Feed gefunden.</span></li>';
+            }
+        })
+        .catch(err => {
+            console.error("Fehler beim Laden der Nachrichten:", err);
+            newsList.innerHTML = `<li><span style="color: red;">Fehler: ${err.message}</span></li>`;
         });
 </script>
 
