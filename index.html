@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wohnzimmer Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    /* Grundlayout */
+    body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(135deg, #1f1f1f, #121212);
+        color: #fff;
+    }
+
+    header {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    /* Kachel-Design Glassmorphism */
+    .card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border-radius: 25px;
+        padding: 20px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    iframe {
+        border: 0;
+        border-radius: 20px;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Kalender */
+    .calendar {
+        flex: 2 1 1000px;
+        height: 700px;
+    }
+
+    /* Rechte Spalte */
+    .right-column {
+        flex: 1 1 350px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Wetter */
+    .weather {
+        height: 250px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    /* Nachrichten */
+    .news {
+        flex: 1;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .news h2 {
+        margin-top: 0;
+        font-size: 1.5rem;
+        border-bottom: 2px solid rgba(0,191,255,0.6);
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+
+    .news ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .news li {
+        margin-bottom: 15px;
+    }
+
+    .news a {
+        text-decoration: none;
+        color: #00bfff;
+        font-weight: 500;
+    }
+
+    .news a:hover {
+        text-decoration: underline;
+    }
+
+    /* Scrollbar modern */
+    .news::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .news::-webkit-scrollbar-thumb {
+        background: rgba(0,191,255,0.6);
+        border-radius: 4px;
+    }
+
+    .news::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.05);
+    }
+
+    @media (max-width: 1200px) {
+        main {
+            flex-direction: column;
+            align-items: center;
+        }
+        .calendar {
+            width: 100%;
+        }
+        .right-column {
+            width: 100%;
+        }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    Wohnzimmer Dashboard
+</header>
+
+<main>
+    <!-- Kalender -->
+    <div class="card calendar">
+        <iframe src="https://calendar.google.com/calendar/embed?src=familie.wasmer%40gmx.de&ctz=Europe%2FBerlin"></iframe>
+    </div>
+
+    <div class="right-column">
+        <!-- Wetter -->
+        <div class="card weather">
+            <h2>Wetter in Wälmlingen</h2>
+            <iframe src="https://wttr.in/Waelmlingen?format=3" width="100%" height="80"></iframe>
+        </div>
+
+        <!-- Nachrichten -->
+        <div class="card news">
+            <h2>Aktuelle Nachrichten</h2>
+            <ul id="newsList">
+                <!-- JS fügt Nachrichten hinzu -->
+            </ul>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Google News RSS Feed (via Proxy)
+    const rssUrl = "https://news.google.com/rss?hl=de&gl=DE&ceid=DE:de";
+    const proxy = "https://api.allorigins.win/get?url=" + encodeURIComponent(rssUrl);
+
+    fetch(proxy)
+        .then(response => response.json())
+        .then(data => {
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(data.contents, "text/xml");
+            const items = xml.querySelectorAll("item");
+            const newsList = document.getElementById("newsList");
+            items.forEach((item, index) => {
+                if(index < 5){
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.href = item.querySelector("link").textContent;
+                    a.target = "_blank";
+                    a.textContent = item.querySelector("title").textContent;
+                    li.appendChild(a);
+                    newsList.appendChild(li);
+                }
+            });
+        })
+        .catch(err => {
+            console.log("Fehler beim Laden der Nachrichten:", err);
+        });
+</script>
+
+</body>
+</html>
