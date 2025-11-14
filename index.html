@@ -4,14 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wohnzimmer Dashboard</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
     /* Grundlayout */
     body {
         margin: 0;
-        font-family: 'Inter', sans-serif; /* Elegante, gut lesbare Schrift */
-        background: linear-gradient(135deg, #1f1f1f, #0a0a0a); /* Etwas dunklerer Verlauf */
-        color: #e0e0e0; /* Weicheres Weiß */
+        font-family: 'Inter', sans-serif;
+        /* Hintergrundbild (feineres Holz) mit Abdunkelungs-Overlay */
+        background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://i.ibb.co/LhcD63BD/schliessen-sie-oben-holzbeschaffenheitshintergrund.jpg');
+        background-color: #3d3d3d; /* Fallback-Farbe (Holzton) */
+        background-size: cover; /* Stellt sicher, dass das Bild den gesamten Viewport bedeckt */
+        background-position: center; /* Zentriert das Bild */
+        background-attachment: fixed; /* Fixiert das Bild beim Scrollen */
+        color: #e0e0e0; 
         line-height: 1.6;
         min-height: 100vh;
         display: flex;
@@ -19,15 +25,15 @@
     }
 
     header {
-        background: rgba(255, 255, 255, 0.08); /* Weniger transparent, mehr Glas-Effekt */
-        backdrop-filter: blur(12px); /* Stärkere Unschärfe */
-        padding: 15px 25px; /* Etwas weniger padding */
+        background: rgba(255, 255, 255, 0.08); 
+        backdrop-filter: blur(12px); 
+        padding: 15px 25px; 
         text-align: center;
-        font-family: 'Poppins', sans-serif; /* Akzent-Schrift für Überschrift */
+        font-family: 'Poppins', sans-serif; 
         font-size: 1.8rem;
         font-weight: 700;
         letter-spacing: 1.5px;
-        box-shadow: 0 4px 25px rgba(0,0,0,0.6); /* Stärkerer Schatten */
+        box-shadow: 0 4px 25px rgba(0,0,0,0.6); 
         border-bottom: 1px solid rgba(255,255,255,0.15);
         display: flex;
         justify-content: space-between;
@@ -38,13 +44,13 @@
     .header-left {
         flex-grow: 1;
         text-align: left;
-        font-size: 1.2em; /* Titelgröße im Header angepasst */
+        font-size: 1.2em; 
     }
 
     .header-time-date {
         display: flex;
         flex-direction: column;
-        align-items: flex-end; /* Rechtsbündig */
+        align-items: flex-end; 
         font-family: 'Inter', sans-serif;
         font-weight: 500;
         color: rgba(255,255,255,0.8);
@@ -58,7 +64,7 @@
     
     .header-date {
         font-size: 1rem;
-        margin-top: -5px; /* Näher an der Uhrzeit */
+        margin-top: -5px; 
     }
 
 
@@ -66,47 +72,71 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        padding: 30px; /* Mehr Abstand */
-        gap: 25px; /* Mehr Abstand zwischen Kacheln */
-        flex-grow: 1; /* Nimmt den restlichen Platz ein */
+        padding: 30px; 
+        gap: 25px; 
+        flex-grow: 1; 
     }
 
     /* Kachel-Design Glassmorphism */
     .card {
-        background: rgba(255, 255, 255, 0.06); /* Weniger transparent */
-        backdrop-filter: blur(18px); /* Stärkere Unschärfe */
-        border-radius: 20px; /* Etwas weniger abgerundet */
-        padding: 25px; /* Mehr Innenabstand */
-        box-shadow: 0 10px 35px rgba(0,0,0,0.5); /* Stärkerer Schatten */
+        background: rgba(255, 255, 255, 0.06); 
+        backdrop-filter: blur(18px); 
+        border-radius: 20px; 
+        padding: 25px; 
+        box-shadow: 0 10px 35px rgba(0,0,0,0.5); 
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.08); /* Subtiler Rahmen */
+        border: 1px solid rgba(255,255,255,0.08); 
         display: flex;
         flex-direction: column;
     }
 
     .card:hover {
-        transform: translateY(-8px); /* Stärkerer Hover-Effekt */
-        box-shadow: 0 25px 50px rgba(0,0,0,0.7); /* Noch stärkerer Schatten */
+        transform: translateY(-8px); 
+        box-shadow: 0 25px 50px rgba(0,0,0,0.7); 
     }
 
     iframe {
         border: 0;
-        border-radius: 15px; /* Weniger abgerundet als die Kachel */
+        border-radius: 15px; 
         width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.1); /* Fallback für Kalender Hintergrund */
+        /* Der iFrame nimmt fast die gesamte Höhe ein, um Platz für den Button zu lassen */
+        height: calc(100% - 60px); 
+        background-color: rgba(0,0,0,0.1); 
     }
 
     /* Kalender */
     .calendar {
-        flex: 2 1 900px; /* Anpassung der Breite für große Bildschirme */
-        height: 650px; /* Etwas kleiner für mehr Balance */
+        flex: 2 1 900px; 
+        height: 650px; 
     }
+    
+    /* NEUER BUTTON STYLING */
+    .add-event-button {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 12px 20px;
+        margin-top: 15px;
+        background: #92dff3; /* Hellblau als Akzentfarbe */
+        color: #1a1a1a;
+        text-decoration: none;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        border-radius: 10px;
+        transition: background 0.2s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .add-event-button:hover {
+        background: #70b8cc; 
+        color: #fff;
+    }
+
 
     /* Rechte Spalte */
     .right-column {
-        flex: 1 1 400px; /* Etwas breiter */
+        flex: 1 1 400px; 
         display: flex;
         flex-direction: column;
         gap: 25px;
@@ -114,7 +144,7 @@
 
     /* Aktuelles Wetter */
     .weather {
-        min-height: 250px; /* Mindesthöhe für Layout-Stabilität */
+        min-height: 250px; 
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -122,7 +152,7 @@
         text-align: center;
         padding-top: 20px;
         padding-bottom: 20px;
-        flex-grow: 0; /* Nicht expandieren */
+        flex-grow: 0; 
     }
     
     .weather h2 {
@@ -133,16 +163,16 @@
     }
 
     .current-temp {
-        font-size: 4.5rem; /* Größere Temperaturanzeige */
+        font-size: 4.5rem; 
         font-weight: 700;
-        color: #92dff3; /* Sanfteres Türkis-Blau */
+        color: #92dff3; 
         margin: 10px 0 5px;
         line-height: 1;
     }
     
     .weather-details {
         font-size: 1.2rem;
-        color: #c0c0c0; /* Weicheres Grau */
+        color: #c0c0c0; 
         margin-top: 5px;
     }
     
@@ -153,17 +183,17 @@
 
     /* Nachrichten (Tagesschau) */
     .news-block {
-        flex: 1; /* Nimmt den restlichen Platz in der Spalte ein */
-        max-height: 400px; /* Bleibt bei max-Höhe */
+        flex: 1; 
+        max-height: 400px; 
         overflow-y: auto;
-        padding-bottom: 5px; /* Luft am Ende der Scroll-Liste */
+        padding-bottom: 5px; 
     }
 
     .news-block h2 {
         font-family: 'Poppins', sans-serif;
         margin-top: 0;
         font-size: 1.6rem;
-        border-bottom: 2px solid rgba(146,223,243,0.5); /* Passende Akzentfarbe */
+        border-bottom: 2px solid rgba(146,223,243,0.5); 
         padding-bottom: 8px;
         margin-bottom: 15px;
         color: #fff;
@@ -176,44 +206,44 @@
     }
 
     .news-block li {
-        margin-bottom: 18px; /* Mehr Abstand zwischen Nachrichten */
+        margin-bottom: 18px; 
     }
 
     .news-block a {
         text-decoration: none;
-        color: #92dff3; /* Passende Akzentfarbe */
+        color: #92dff3; 
         font-weight: 500;
         display: block;
-        font-size: 1.15rem; /* Etwas größere Schrift */
+        font-size: 1.15rem; 
         transition: color 0.2s ease;
     }
 
     .news-block a:hover {
-        color: #70b8cc; /* Dunklerer Hover-Effekt */
-        text-decoration: none; /* Kein Unterstrich bei Hover */
+        color: #70b8cc; 
+        text-decoration: none; 
     }
     
     .news-source {
         font-size: 0.95em;
         color: rgba(255, 255, 255, 0.5);
         margin-top: 4px;
-        display: block; /* Eigene Zeile */
+        display: block; 
     }
 
 
     /* Scrollbar modern (akzentuiert) */
     .news-block::-webkit-scrollbar {
-        width: 10px; /* Breitere Scrollbar */
+        width: 10px; 
     }
 
     .news-block::-webkit-scrollbar-thumb {
-        background: rgba(146,223,243,0.7); /* Akzentfarbe für Scrollbar */
+        background: rgba(146,223,243,0.7); 
         border-radius: 5px;
-        border: 2px solid rgba(255,255,255,0.05); /* Rand für Tiefe */
+        border: 2px solid rgba(255,255,255,0.05); 
     }
 
     .news-block::-webkit-scrollbar-track {
-        background: rgba(255,255,255,0.03); /* Leichter Track-Hintergrund */
+        background: rgba(255,255,255,0.03); 
     }
 
     @media (max-width: 1200px) {
@@ -224,7 +254,7 @@
         }
         .calendar {
             width: 100%;
-            height: 500px; /* Anpassung für kleinere Bildschirme */
+            height: 550px; /* Höhe angepasst wegen Button */
         }
         .right-column {
             width: 100%;
@@ -243,6 +273,9 @@
         }
         .header-date {
             font-size: 0.9rem;
+        }
+        iframe {
+            height: calc(100% - 50px);
         }
     }
 
@@ -274,7 +307,11 @@
 
 <main>
     <div class="card calendar">
-        <iframe src="https://calendar.google.com/calendar/embed?src=familie.wasmer%40gmx.de&ctz=Europe%2FBerlin" style="border: 0;" frameborder="0" scrolling="no"></iframe>
+        <iframe src="https://calendar.google.com/calendar/embed?src=familie.wasmer@gmx.de&ctz=Europe%2FBerlin" style="border: 0;" frameborder="0" scrolling="no"></iframe>
+        
+        <a href="https://calendar.google.com/calendar/r/eventedit" target="_blank" class="add-event-button">
+            ➕ Neuer Termin hinzufügen
+        </a>
     </div>
 
     <div class="right-column">
